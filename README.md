@@ -42,7 +42,7 @@
 | --- | --- | --- | --- |
 | consultar all pontos | `/pontos` | `get` | |
 | consultar um ponto | `/pontos/:id`| `:get`| |
-| retirar uma bike | `/bike/:id-bike/users/:id`| `:post` | [1, 2] |
+| retirar uma bike | `/bikes/:id-bike/users/:id`| `:post` | [1, 2] |
 | devolver uma bike |   `/bikes/:id-bike/pontos/:id` | `post` | [1] |
 | assinar |              `/users/:id/assinatura` | `post` | [1] |
 
