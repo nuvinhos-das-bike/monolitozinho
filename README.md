@@ -54,14 +54,15 @@
 - 3 formatar saida para json, deve ter algum interceptor padrao
 
 # Regras de negocio
-consultar ponto
+## consultar ponto
 - trazer todas as bikes disponiveis naquele ponto
-retirada da bike
+## retirada da bike
 - usuario soh pode ter uma bike vinculada, ativa, usando, sei la
-- usuario nao pode retirar uma bika de outro usuario
-devolucao da bike
+- usuario nao pode retirar uma bike de outro usuario
+## devolucao da bike
+- a bike deve estar vinculada ao usuário
 - deve possuir vaga disponivel
-assinatura
+## assinatura
 - usuario nao pode ser assinante
 
 
