@@ -1,9 +1,7 @@
-# modulo-3
-
-Ideia
+# Ideia
  - Um sistema de bike compartilhada
 
-O que precisa ser implementado
+# O que precisa ser implementado
 - Servidor http
 - Schema/spec (Utilizar plumatic/schema)
 - - Usar na camada de logica
@@ -12,6 +10,8 @@ O que precisa ser implementado
 - Testes dos schemas/spec
 - Utilizar components
 
+# Modelo de dados
+```json
 {
   "bikes": [{
       "id": 1,
@@ -36,21 +36,24 @@ O que precisa ser implementado
     "key": "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"
   }]
 }
+```
+# Endpoints
+| O que faz | path | método http | Interceptors |
+| --- | --- | --- | --- |
+| consultar all pontos | `/pontos` | `get` | |
+| consultar um ponto | `/pontos/:id`| `:get`| |
+| retirar uma bike | `/users/:id/bike/:id-bike`| `:post` | [1, 2] |
+| devolver uma bike |   `/bikes/:id-bike/pontos/:id` | `post` | [1] |
+| assinar |              `/users/:id/assinatura` | `post` | [1] |
 
-consultar all pontos /pontos
-consultar um ponto   /pontos/:id                        :get
-retirar uma bike     /users/:id/bike/:id-bike   [1, 2]  :post
-devolver uma bike    /bikes/:id-bike/pontos/:id [1]     :post
-assinar              /users/:id/assinatura      [1]     :post
+# Interceptors
+- 1 interceptor de autorizacao
+    - verificar se a request vem com o header `key` e fazer o bind de `:user` na request caso exista, caso contrario erro 400
+- 2 interceptor para usuario ativo
+    - continua apenas se usuario estiver ativo, caso contrario erro 403
+- 3 formatar saida para json, deve ter algum interceptor padrao
 
-interceptors
-1 interceptor de autorizacao
-- verificar se a request vem com key e fazer o bind de :user na request caso exista, caso contrario erro 400
-2 interceptor para usuario ativo
-- continua apenas se usuario estiver ativo, caso contrario erro 403
-3 formatar saida para json, deve ter algum interceptor padrao
-
-regras de negocio
+# Regras de negocio
 consultar ponto
 - trazer todas as bikes disponiveis naquele ponto
 retirada da bike
