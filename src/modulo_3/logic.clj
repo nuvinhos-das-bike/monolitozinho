@@ -1,6 +1,7 @@
 (ns modulo-3.logic
   (:require [modulo-3.models :as m]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [modulo-3.db :as db]))
 
 (s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
   (get db :points))
@@ -25,3 +26,11 @@
                                         (assoc :point id-ponto)
                                         (dissoc :user)))
     (throw (ex-info "point-full" {}))))
+
+(defn get-point
+  "Get one specific point by id"
+  [{:keys [db point-id]}]
+  (let [point (db/find-point-by-id db point-id)]
+    (if (not (nil? point))
+      {:status 200 :body (str point)}
+      {:status 404 :body {}})))
