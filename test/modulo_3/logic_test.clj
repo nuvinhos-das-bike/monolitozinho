@@ -39,3 +39,11 @@
                :bikes  {:2 {:user :3} :4 {:point :1}}}
               {:points {:1 {:capacity 1}}
                :bikes  {:2 {:user :3} :4 {:point :1} :5 {:point :1}}})))
+
+(deftest has-it-capacity?-test
+  (let [mapa {:points {:1 {:capacity 1} :2 {:capacity 1}}
+              :bikes  {:2 {:user :3} :4 {:point :1}}}]
+    (testing "Full"
+      (is (= (has-it-capacity? mapa :1) false)))
+    (testing "Has space"
+      (is (= (has-it-capacity? mapa :2) true)))))
