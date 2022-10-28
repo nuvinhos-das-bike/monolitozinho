@@ -48,10 +48,12 @@
 
 # Interceptors
 - 1 interceptor de autorizacao
-    - verificar se a request vem com o header `key` e fazer o bind de `:user` na request caso exista, caso contrario erro 400
-- 2 interceptor para usuario ativo
-    - continua apenas se usuario estiver ativo, caso contrario erro 403
-- 3 formatar saida para json, deve ter algum interceptor padrao
+    - verificar se a request vem com o header `key` e fazer o bind de `:user` na request caso exista, caso contrario erro 403
+- 2 interceptor para verificar se usuário/conta existe
+    - verifica se o id existe no banco de dados, caso contrário erro 400 (ou 404??)
+- 3 interceptor para verificar se bike existe
+- 4 interceptor para verificar se ponto existe
+- 5 formatar saida para json, deve ter algum interceptor padrao **DONE** 
 
 # Regras de negocio
 ## consultar ponto
