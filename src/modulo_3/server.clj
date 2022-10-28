@@ -2,8 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]
             [io.pedestal.test :as test]
-            [io.pedestal.interceptor :as i]
-            ))
+            [io.pedestal.interceptor :as i]))
 
 (defonce server (atom nil))
 
@@ -36,7 +35,9 @@
                             ::http/join?         false}
           service-map (-> service-map-base
                           (http/default-interceptors)
-                          (update ::http/interceptors conj (i/interceptor db-interceptor)))]
+                          (update ::http/interceptors conj
+                                  (i/interceptor db-interceptor)
+                                                 http/json-body))]
       (try
         (start-server service-map)
         (println "Server Started successfully!")

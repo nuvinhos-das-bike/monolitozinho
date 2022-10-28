@@ -1,7 +1,8 @@
 (ns modulo-3.routing
   (:require [io.pedestal.http.route :as route]
             [com.stuartsierra.component :as component]
-            [clojure.pprint :as pprint]))
+            [clojure.pprint :as pprint]
+            [modulo-3.interceptors :as i]))
 
 (def get-point-id-and-points
   {:name  ::get-point
@@ -22,6 +23,7 @@
 (def routes
   (route/expand-routes
     #{["/hello" :get (fn [request] {:status 200 :body "hello world"}) :route-name :hello]
+      ["/points" :get i/all-points-interceptor :route-name :all-points]
       ["/points/:id"
        :get [get-point-id-and-points get-point]
        :route-name :get-point]}))
