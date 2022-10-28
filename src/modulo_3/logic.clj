@@ -32,5 +32,5 @@
   [{:keys [db point-id]}]
   (let [point (db/find-point-by-id db point-id)]
     (if (not (nil? point))
-      {:status 200 :body (str point)}
-      {:status 404 :body {}})))
+      {:status 200 :body point}
+      {:status 404})))
