@@ -19,7 +19,3 @@
   {:points {s/Keyword Point}
    :bikes  {s/Keyword Bike}
    :users  -})
-
-(def Point)
-
-(def AllPoints)
