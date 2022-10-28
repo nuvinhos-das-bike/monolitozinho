@@ -1,4 +1,6 @@
-(ns modulo-3.logic)
+(ns modulo-3.logic
+  (:require [modulo-3.models :as m]
+            [schema.core :as s]))
 
-(defn all-points [db]
-  (get :points db))
+(s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
+  (get db :points))

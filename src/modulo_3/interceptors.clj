@@ -7,4 +7,4 @@
                   :enter (fn [context]
                            (let [db (:db context)]
                              (assoc context :response {:status 200
-                                                       :body   (l/all-points @db)})))}))
+                                                       :body (l/all-points @db)})))}))
