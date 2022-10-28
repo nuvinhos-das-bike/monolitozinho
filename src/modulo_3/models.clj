@@ -12,8 +12,8 @@
    :capacity s/Num
    :address  Address})
 
-(def Bike {(s/optional-key :point) s/Num
-           (s/optional-key :user)  s/Num})
+(def Bike {(s/optional-key :point) s/Keyword
+           (s/optional-key :user)  s/Keyword})
 
 (def User {:login                s/Str
            (s/optional-key :key) s/Str})

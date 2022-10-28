@@ -10,10 +10,10 @@
                            :number       "12a"
                            :zip-code     "72000000"
                            :address-line ""}}}
- :bikes  {:1      {:point 1}
-          :50     {:point 1}
-          :999    {:point 100}
-          :101010 {:user  2}}
+ :bikes  {:1      {:point :1}
+          :50     {:point :1}
+          :999    {:point :100}
+          :101010 {:user  :2}}
  :users  {:1  {:login "admin"
                :key   "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}
           :2  {:login "user"
