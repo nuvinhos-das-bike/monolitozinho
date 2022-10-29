@@ -10,8 +10,11 @@
                                                        :body   (l/all-points @db)})))}))
 
 (def get-point-interceptor
-  (i/interceptor {:name  :get-point
-                  :enter (fn
-                           [{:keys [request db] :as context}]
-                           (let [point-id (get-in request [:path-params :id])]
-                             (update context :request #(assoc % :db @db :point-id point-id))))}))
+  (i/interceptor {:name  :get-point-interceptor
+                  :enter (fn [{:keys [db request] :as context}]
+                           (let [point-id (get-in request [:path-params :id])
+                                 point (l/get-point @db point-id)]
+                             (assoc context :response (if (not (nil? point))
+                                                        {:status 200
+                                                         :body   point}
+                                                        {:status 404}))))}))

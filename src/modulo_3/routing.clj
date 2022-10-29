@@ -8,9 +8,7 @@
   (route/expand-routes
     #{["/hello" :get (fn [request] {:status 200 :body "hello world"}) :route-name :hello]
       ["/points" :get i/all-points-interceptor :route-name :all-points]
-      ["/points/:id"
-       :get [i/get-point-interceptor l/get-point]
-       :route-name :get-point]}))
+      ["/points/:id" :get i/get-point-interceptor :route-name :get-point]}))
 
 (defrecord Routes []
   component/Lifecycle

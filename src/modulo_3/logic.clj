@@ -27,10 +27,7 @@
                                         (dissoc :user)))
     (throw (ex-info "point-full" {}))))
 
-(defn get-point
-  "Get one specific point by id"
-  [{:keys [db point-id]}]
-  (let [point (db/find-point-by-id db point-id)]
-    (if (not (nil? point))
-      {:status 200 :body point}
-      {:status 404})))
+(s/defn get-point
+  [db :- m/Database
+   point-id :- s/Int]
+  (db/find-point-by-id db point-id))
