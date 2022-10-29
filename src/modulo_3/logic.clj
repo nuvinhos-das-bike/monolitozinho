@@ -21,19 +21,19 @@
                                    :user  nil}
                                :4 {:point nil
                                    :user  1}}
-                      :users  {:1 {:login      "admin"
-                                   :subscribed true
-                                   :key        "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}}}))
+                      :users  {:1  {:login "admin"
+                                    :key   "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}
+                               :2  {:login "user"
+                                    :key   "in%^Ha[5mkNuJoARAjqN!'?RFlG[80"}
+                               :50 {:login "anon"}}}))
 
 (defn retirada-bike [request]
   (let [id-bike (-> request :path-params :id-bike keyword)
-        id-user (-> request :path-params :id keyword)
+        id-user (-> request :path-params :id-user keyword)
         bike (-> @db-provisorio :bikes id-bike)]
-    ;(println bike)
 
     (if (= id-user (:user bike))
       (throw (Exception. "Bike já vinculada ao usuário.")))
-
     (if (:user bike)
       (throw (Exception. "Bike vinculada a outro usuário.")))
 
@@ -41,16 +41,11 @@
     (swap!
       db-provisorio
       assoc-in [:bikes id-bike :point] nil)
-
     ;; adiciona o user a bike
     (swap!
       db-provisorio
       assoc-in [:bikes id-bike :user] id-user)
 
-    ;(println (-> @db-provisorio
-    ;             :bikes
-    ;             id-bike))
-    ;(println @db-provisorio)
     {:status 200 :body {:id-bike id-bike
                         :id-user id-user
                         :id-point (-> @db-provisorio
