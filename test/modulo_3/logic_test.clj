@@ -57,17 +57,6 @@
   (testing "get a NOT existent point in db"
     (is (= (get-point @db 3) nil))))
 
-(deftest get-point-succeed?
-  (testing "Retrieving a point by id success"
-    (let [existent-id 1
-          db {:points {:1 {:name "foo"
-                           :zip-code "0000-000"}}
-              :bikes  {:foo {:user :foobar}}}
-          actual {:name "foo"
-                  :zip-code "0000-000"}
-          expected (get-point db existent-id)]
-      (is (= expected actual) true))))
-
 (comment
   ;; esse trecho produz algum side effect?
   (deftest get-point-succeed-status?
