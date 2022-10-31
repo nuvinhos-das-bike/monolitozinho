@@ -5,9 +5,11 @@
 
 (def routes
   (route/expand-routes
-    #{["/hello" :get (fn [request] {:status 200 :body "hello world"}) :route-name :hello]
+ 
+    #{["/bikes/:id-bike/users/:id-user" :patch [i/validate-user-exists i/authorize-user i/validate-bike i/handle-bike-request] :route-name :handle-bike-request]
       ["/bikes/:id-bike/points/:id-point" :patch [i/authorize-user i/validate-bike i/validate-user-has-bike i/validate-point i/handle-bike-devolution] :route-name :handle-bike-devolution]
-      ["/bikes/:id-bike/users/:id-user" :patch [i/validate-user-exists i/authorize-user i/validate-bike i/handle-bike-request] :route-name :handle-bike-request]}))
+      ["/users/:id-user/subscription" :patch [i/authorize-user i/handle-subscription] :route-name :handle-user-subscription]
+      ["/points" :get i/all-points-interceptor :route-name :all-points]}))
 
 (defrecord Routes []
   component/Lifecycle

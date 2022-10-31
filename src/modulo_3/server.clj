@@ -2,8 +2,8 @@
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]
             [io.pedestal.test :as test]
-            [io.pedestal.interceptor :as i]
-            ))
+            [io.pedestal.interceptor.error :as error-int]
+            [io.pedestal.interceptor :as i]))
 
 (defonce server (atom nil))
 
@@ -29,6 +29,11 @@
                         (assoc context :db (:db database)))
           db-interceptor {:name  :db-interceptor
                           :enter assoc-store}
+          error-interceptor {:error
+                             (fn [ctx ex]
+                               (if-let [cause (:cause (ex-data ex))]
+                                 (assoc ctx :response {:status (get (ex-data ex) :status 400) :body cause})
+                                 (assoc ctx :io.pedestal.interceptor.chain/error ex)))}
           service-map-base {::http/routes        (:routes routes)
                             ::http/port          (-> config :config :port)
                             ::http/resource-path "/resources/public"
@@ -36,7 +41,10 @@
                             ::http/join?         false}
           service-map (-> service-map-base
                           (http/default-interceptors)
-                          (update ::http/interceptors conj (i/interceptor db-interceptor)))]
+                          (update ::http/interceptors conj
+                                  (i/interceptor error-interceptor)
+                                  (i/interceptor db-interceptor)
+                                                 http/json-body))]
       (try
         (start-server service-map)
         (println "Server Started successfully!")

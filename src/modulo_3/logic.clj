@@ -5,6 +5,7 @@
 (s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
   (get db :points))
 
+
 (defn has-it-capacity? [db id-ponto]
   (let [vals-of-bikes (vals (get db :bikes))
         all-bikes-in-point (filter #(= id-ponto (:point %)) vals-of-bikes)
@@ -19,7 +20,7 @@
     (update-in db [:bikes id-bike] #(-> %
                                         (assoc :point id-ponto)
                                         (dissoc :user)))
-    (throw (ex-info "point-full" {}))))
+    (throw (ex-info "Point already reached capacity" { :cause "point-full" }))))
 
 (defn bike-request [id-bike id-user db]
   (update-in db [:bikes id-bike] #(-> %
@@ -33,3 +34,6 @@
        (take 1)
        (map #(assoc (val %) :id (key %)))
        first))
+
+(defn subscribe-user [id-user db]
+    (update-in db [:users id-user] assoc :subscriber true))
