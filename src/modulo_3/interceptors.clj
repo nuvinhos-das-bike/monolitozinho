@@ -23,7 +23,7 @@
                   :enter (fn [context]
                            (let [db (:db context)
                                  users (:users @db)
-                                 key-user (get-in context [:request :header "key"])
+                                 key-user (get-in context [:request :headers "key"])
                                  [user-id] (user-for-keyRequest users key-user)]
                              (if user-id
                                (assoc context [:request :user] user-id)
