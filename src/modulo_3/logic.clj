@@ -25,7 +25,7 @@
     (update-in db [:bikes id-bike] #(-> %
                                         (assoc :point id-ponto)
                                         (dissoc :user)))
-    (throw (ex-info "point-full" {}))))
+    (throw (ex-info "Point already reached capacity" { :cause "point-full" }))))
 
 (s/defn get-point
   [db :- m/Database
