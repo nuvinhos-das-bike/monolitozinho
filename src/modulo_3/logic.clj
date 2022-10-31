@@ -1,6 +1,7 @@
 (ns modulo-3.logic
   (:require [modulo-3.models :as m]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [modulo-3.db :as db]))
 
 (s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
   (get db :points))
@@ -21,6 +22,11 @@
                                         (assoc :point id-ponto)
                                         (dissoc :user)))
     (throw (ex-info "Point already reached capacity" { :cause "point-full" }))))
+
+(s/defn get-point
+  [db :- m/Database
+   point-id :- s/Int]
+  (db/find-point-by-id db point-id))
 
 (defn bike-request [id-bike id-user db]
   (update-in db [:bikes id-bike] #(-> %
