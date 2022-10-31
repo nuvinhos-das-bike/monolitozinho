@@ -35,7 +35,7 @@
     "assinante": true,
     "key": "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"
   }]
-}
+} 
 ```
 # Endpoints
 | O que faz | path | método http | Interceptors |
