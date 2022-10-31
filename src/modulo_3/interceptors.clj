@@ -14,10 +14,10 @@
                            (let [id-bike (-> context :request :path-params :id-bike)]
                              (try
                                (Integer/parseInt id-bike)
-                               (catch NumberFormatException _ (throw (ex-info "number-invalid" {}))))
+                               (catch NumberFormatException _ (throw (ex-info "Invalid bike number" {:cause "number-invalid"}))))
                              (if (-> context :db deref :bikes (get (keyword id-bike)))
                                (assoc context :id-bike (keyword id-bike))
-                               (throw (ex-info "bike-not-exists" {})))))}))
+                               (throw (ex-info "Bike not exists" {:cause "bike-not-exists" })))))}))
 
 (def validate-point
   (i/interceptor {:name  :validate-bike
@@ -25,10 +25,10 @@
                            (let [id-point (-> context :request :path-params :id-point)]
                              (try
                                (Integer/parseInt id-point)
-                               (catch NumberFormatException _ (throw (ex-info "point-number-invalid" {}))))
+                               (catch NumberFormatException _ (throw (ex-info "Invalid point number" { :cause "point-number-invalid" }))))
                              (if (-> context :db deref :points (get (keyword id-point)))
                                (assoc context :id-point (keyword id-point))
-                               (throw (ex-info "point-not-exists" {})))))}))
+                               (throw (ex-info "Point not exists" {:cause "point-not-exists"})))))}))
 
 (def validate-user-has-bike
   (i/interceptor {:name  :validate-user-has-bike
@@ -37,7 +37,7 @@
                                  bike-user (-> context :db deref :bikes (get (:id-bike context)) :user)]
                              (if (= authorized-user bike-user)
                                context
-                               (throw (ex-info "user-not-has-bike" {})))))}))
+                               (throw (ex-info "User can't iterate with this bike" {:cause "user-not-has-bike" })))))}))
 
 (def authorize-user
   (i/interceptor {:name  :authorize-user
@@ -46,8 +46,8 @@
                              (let [user (->> context :db deref (l/get-user-by-key api-key))]
                                (if user
                                  (assoc context :id-user (:id user))
-                                 (throw (ex-info "not-allowed" {}))))
-                             (throw (ex-info "need-api-key" {}))))}))
+                                 (throw (ex-info "User forbidden" { :cause "not-allowed" :status 403 }))))
+                             (throw (ex-info "Need a api-key" { :cause "need-api-key" :status 401 }))))}))
 
 (def handle-bike-devolution
   (i/interceptor {:name  :handle-bike-devolution
@@ -66,4 +66,4 @@
                                (do
                                  (reset! db (l/subscribe-user id-user @db))
                                  (assoc context :response {:status 200}))
-                               (throw (ex-info "already-subscribed" {})))))}))
+                               (throw (ex-info "User already have a subscription" { :cause "already-subscribed" })))))}))
