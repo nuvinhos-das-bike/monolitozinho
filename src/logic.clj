@@ -1,9 +1,9 @@
-(ns modulo-3.logic
-  (:require [modulo-3.models :as m]
+(ns logic
+  (:require [model.database :as m.database]
+            [model.point :as m.point]
             [schema.core :as s]))
 
-(s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
-  (get db :points))
+
 
 (defn retirada-bike [id-bike id-usuario db]
   ;; retira point da bike

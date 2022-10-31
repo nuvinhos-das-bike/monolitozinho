@@ -1,9 +1,9 @@
-(ns modulo-3.core
+(ns core
   (:require [com.stuartsierra.component :as component]
-            [modulo-3.config :as config]
-            [modulo-3.routing :as routes]
-            [modulo-3.db :as db]
-            [modulo-3.server :as web-server])
+            [config :as config]
+            [service :as routes]
+            [db :as db]
+            [server :as web-server])
   (:gen-class))
 
 (def new-sys

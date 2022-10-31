@@ -1,4 +1,4 @@
-(ns modulo-3.server
+(ns server
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]
             [io.pedestal.test :as test]
@@ -25,7 +25,7 @@
   (start [this]
     (println "Start servidor")
     (let [assoc-store (fn [context]
-                        (assoc context :db (:db database)))
+                        (assoc-in context [:request :db] (:db database)))
           db-interceptor {:name  :db-interceptor
                           :enter assoc-store}
           service-map-base {::http/routes        (:routes routes)

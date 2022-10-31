@@ -1,4 +1,4 @@
-(ns modulo-3.db
+(ns db.db
   (:require [com.stuartsierra.component :as component]))
 
 (defrecord Database [config]
