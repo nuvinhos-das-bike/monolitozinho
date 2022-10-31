@@ -25,3 +25,14 @@
                                         (assoc :point id-ponto)
                                         (dissoc :user)))
     (throw (ex-info "point-full" {}))))
+
+(defn get-user-by-key [api-key db]
+  (->> db
+       :users
+       (filter #(= (:key (val %)) api-key))
+       (take 1)
+       (map #(assoc (val %) :id (key %)))
+       first))
+
+(defn subscribe-user [id-user db]
+    (update-in db [:users id-user] assoc :subscriber true))
