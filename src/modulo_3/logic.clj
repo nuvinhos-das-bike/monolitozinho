@@ -31,6 +31,7 @@
   [db :- m/Database
    point-id :- s/Int]
   (db/find-point-by-id db point-id))
+
 (defn get-user-by-key [api-key db]
   (->> db
        :users
