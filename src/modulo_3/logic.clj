@@ -1,57 +1,9 @@
-(ns modulo-3.logic)
+(ns modulo-3.logic
+  (:require [modulo-3.models :as m]
+            [schema.core :as s]))
 
-(def db-provisorio (atom
-                     {:points {:1 {:name     "ponto da felicidade"
-                                   :capacity 10
-                                   :address  {:street       "rua da felicidade"
-                                              :number       "12a"
-                                              :zip-code     "72000000"
-                                              :address-line ""}}
-                               :2 {:name     "ponto da euforia"
-                                   :capacity 50
-                                   :address  {:street       "rua da felicidade"
-                                              :number       "12a"
-                                              :zip-code     "72000000"
-                                              :address-line ""}}}
-                      :bikes  {:1 {:point 1
-                                   :user  nil}
-                               :2 {:point 1
-                                   :user  nil}
-                               :3 {:point 2
-                                   :user  nil}
-                               :4 {:point nil
-                                   :user  1}}
-                      :users  {:1  {:login "admin"
-                                    :key   "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}
-                               :2  {:login "user"
-                                    :key   "in%^Ha[5mkNuJoARAjqN!'?RFlG[80"}
-                               :50 {:login "anon"}}}))
-
-(defn retirada-bike [request]
-  (let [id-bike (-> request :path-params :id-bike keyword)
-        id-user (-> request :path-params :id-user keyword)
-        bike (-> @db-provisorio :bikes id-bike)]
-
-    (if (= id-user (:user bike))
-      (throw (Exception. "Bike já vinculada ao usuário.")))
-    (if (:user bike)
-      (throw (Exception. "Bike vinculada a outro usuário.")))
-
-    ;; retira point da bike
-    (swap!
-      db-provisorio
-      assoc-in [:bikes id-bike :point] nil)
-    ;; adiciona o user a bike
-    (swap!
-      db-provisorio
-      assoc-in [:bikes id-bike :user] id-user)
-
-    {:status 200 :body {:id-bike id-bike
-                        :id-user id-user
-                        :id-point (-> @db-provisorio
-                                      :bikes
-                                      id-bike
-                                      :point)}}))
+(s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
+  (get db :points))
 
 (defn has-it-capacity? [db id-ponto]
   (let [vals-of-bikes (vals (get db :bikes))
@@ -63,8 +15,21 @@
     (< (count all-bikes-in-point) capacity)))
 
 (defn bike-devolution [id-bike id-ponto db]
-  (let [db-dissoc (update-in db [:bikes id-bike] dissoc :user)]
-    (if (has-it-capacity? db id-ponto)
-      (update-in db-dissoc [:bikes id-bike] assoc :point id-ponto)
-      (throw (ex-info "point-full" {})))))
+  (if (has-it-capacity? db id-ponto)
+    (update-in db [:bikes id-bike] #(-> %
+                                        (assoc :point id-ponto)
+                                        (dissoc :user)))
+    (throw (ex-info "point-full" {}))))
 
+(defn bike-request [id-bike id-user db]
+  (update-in db [:bikes id-bike] #(-> %
+                                      (assoc :user id-user)
+                                      (dissoc :point))))
+
+(defn get-user-by-key [api-key db]
+  (->> db
+       :users
+       (filter #(= (:key (val %)) api-key))
+       (take 1)
+       (map #(assoc (val %) :id (key %)))
+       first))
