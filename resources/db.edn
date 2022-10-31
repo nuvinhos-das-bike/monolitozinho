@@ -14,7 +14,6 @@
           :50     {:point :1}
           :999    {:point :100}
           :101010 {:user  :2}}
-<<<<<<< HEAD
  :users  {:1  {:login      "admin"
                :subscriber true
                :key        "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}
@@ -24,10 +23,4 @@
           :50 {:login      "anon"
                :subscriber false
                :key        "{{Uo~yG#E&#c6GOaS-!84b.Gi8OM\"H"}}}
-=======
- :users  {:1  {:login "admin"
-               :key   "/&[3-.wff@qx'{aTX-2P>}XE_B6Jc+"}
-          :2  {:login "user"
-               :key   "in%^Ha[5mkNuJoARAjqN!'?RFlG[80"}
-          :50 {:login "anon" :key "ik%^Ha[5mkNuJoARAjqN!'?RFlG[80" }}}
->>>>>>> feature/interceptor-key-user
+
