@@ -46,7 +46,7 @@
                                  users-db (-> context :db deref :users)]
                              (if (get users-db user)
                                context
-                               (throw (ex-info "user-not-exists" {:cause "user-not-exists"}})))))}))
+                               (throw (ex-info "user-not-exists" {:cause "user-not-exists"})))))}))
 
                               
 
