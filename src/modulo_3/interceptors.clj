@@ -33,6 +33,15 @@
                                context
                                (throw (ex-info "user-not-has-bike" {})))))}))
 
+(def validate-user-exists
+  (i/interceptor {:name  :validate-user-exists
+                  :enter (fn [context]
+                           (let [user (-> context :request :path-params :id-user keyword)
+                                 users-db (-> context :db deref :users)]
+                             (if (get users-db user)
+                               context
+                               (throw (ex-info "user-not-exists" {})))))}))
+
 (def authorize-user
   (i/interceptor {:name  :authorize-user
                   :enter (fn [context]
