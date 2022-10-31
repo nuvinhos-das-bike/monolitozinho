@@ -2,7 +2,6 @@
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]
             [io.pedestal.test :as test]
-            [io.pedestal.interceptor.error :as error-int]
             [io.pedestal.interceptor :as i]))
 
 (defonce server (atom nil))
