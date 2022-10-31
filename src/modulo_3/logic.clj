@@ -6,10 +6,6 @@
 (s/defn ^:always-validate all-points [db :- m/Database] :- m/Points
   (get db :points))
 
-(defn retirada-bike [id-bike id-usuario db]
-  ;; retira point da bike
-  ;; adiciona o user a bike
-  )
 
 (defn has-it-capacity? [db id-ponto]
   (let [vals-of-bikes (vals (get db :bikes))
@@ -31,6 +27,11 @@
   [db :- m/Database
    point-id :- s/Int]
   (db/find-point-by-id db point-id))
+
+(defn bike-request [id-bike id-user db]
+  (update-in db [:bikes id-bike] #(-> %
+                                      (assoc :user id-user)
+                                      (dissoc :point))))
 
 (defn get-user-by-key [api-key db]
   (->> db
