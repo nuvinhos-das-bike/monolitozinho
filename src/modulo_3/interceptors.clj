@@ -39,6 +39,17 @@
                                context
                                (throw (ex-info "User can't iterate with this bike" {:cause "user-not-has-bike" })))))}))
 
+(def validate-user-exists
+  (i/interceptor {:name  :validate-user-exists
+                  :enter (fn [context]
+                           (let [user (-> context :request :path-params :id-user keyword)
+                                 users-db (-> context :db deref :users)]
+                             (if (get users-db user)
+                               context
+                               (throw (ex-info "user-not-exists" {:cause "user-not-exists"}})))))}))
+
+                              
+
 (def authorize-user
   (i/interceptor {:name  :authorize-user
                   :enter (fn [context]
@@ -57,6 +68,17 @@
                                :as      context}]
                            (reset! db (l/bike-devolution id-bike id-point @db))
                            (assoc context :response {:status 200}))}))
+
+
+(def handle-bike-request
+  (i/interceptor {:name  :handle-bike-devolution
+                  :enter (fn [{id-bike  :id-bike
+                               id-user :id-user
+                               db       :db
+                               :as      context}]
+                           (reset! db (l/bike-request id-bike id-user @db))
+                           (assoc context :response {:status 200
+                                                     :body "Bike Requested"}))}))
 
 (def handle-subscription
   (i/interceptor {:name  :handle-user-subscription
