@@ -3,8 +3,10 @@
             [modulo-3.logic :refer :all])
   (:import (clojure.lang ExceptionInfo)))
 
-(def db (atom {:users {:1 {} :2 {}}
-               :bikes {:1 {:point :1} :2 {:user :2}}}))
+(def db (atom {:users  {:1 {} :2 {}}
+               :bikes  {:1 {:point :1} :2 {:user :2}}
+               :points {:1 {:street "rua da felicidade"}
+                        :2 {:street "rua da felicidade 2"}}}))
 
 (deftest retirada-bike-test
   (testing "Retrieve bike successfully"
@@ -47,3 +49,10 @@
       (is (= (has-it-capacity? mapa :1) false)))
     (testing "Has space"
       (is (= (has-it-capacity? mapa :2) true)))))
+
+(deftest get-point-test
+  (testing "get a existent point in db"
+    (is (= (get-point @db 1) {:street "rua da felicidade"})))
+
+  (testing "get a NOT existent point in db"
+    (is (= (get-point @db 3) nil))))
