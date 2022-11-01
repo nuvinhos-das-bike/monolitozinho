@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [config :as config]
             [service :as routes]
-            [db :as db]
+            [db.db :as db]
             [server :as web-server])
   (:gen-class))
 

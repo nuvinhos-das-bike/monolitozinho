@@ -12,5 +12,10 @@
                  [com.stuartsierra/component "1.1.0"]
                  [walmartlabs/system-viz "0.4.0"]
                  [common-core        "16.14.1"]
-                 [hiccup "1.0.5"]]
-  :repl-options {:init-ns modulo-3.core})
+                 [hiccup "1.0.5"]
+                 [com.datomic/dev-local "1.0.243"]]
+  :repl-options {:init-ns core}
+
+  :repositories [["cognitect-dev-tools" {:url      "https://dev-tools.cognitect.com/maven/releases/"
+                                         :username "rodrigofurtado.8.8@gmail.com"
+                                         :password "BDA5D122A5443FE2326322443ECE226E6FF3E115"}]])

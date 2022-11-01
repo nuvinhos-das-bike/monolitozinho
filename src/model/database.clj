@@ -1,8 +1,8 @@
 (ns model.database
   (:require [schema.core :as s]
             [model.point :as model.point]
-            [model.point :as model.bike]
-            [model.point :as model.user]))
+            [model.bike :as model.bike]
+            [model.user :as model.user]))
 
 (def canonical-database
   {:points {s/Keyword model.point/Point}

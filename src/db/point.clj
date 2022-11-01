@@ -3,5 +3,5 @@
             [model.point :as m.point]
             [schema.core :as s]))
 
-(s/defn get-all-points [db :- m.database/Database] :- m.point/Points
+(s/defn ^:always-validate get-all-points [db :- m.database/Database] :- m.point/Points
         (get db :points))

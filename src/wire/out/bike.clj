@@ -1,12 +1,13 @@
-(ns model.bike
+(ns wire.out.bike
   (:require [schema.core :as s]))
 
 (def canonical-bike
-  {(s/optional-key :point) s/Keyword
+  {:id                     s/Keyword
+   (s/optional-key :point) s/Keyword
    (s/optional-key :user)  s/Keyword})
 
 (s/defschema Bike
   canonical-bike)
 
 (s/defschema Bikes
-  {s/Keyword Bike})
+  [Bike])
