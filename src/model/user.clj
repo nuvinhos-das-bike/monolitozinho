@@ -1,9 +1,10 @@
 (ns model.user
-  (:require [schema.core :as s]))
+  (:require [schema.core :as s]
+            [common-core.schema :as schema]))
 
-(def canonical-user
-  {:login                s/Str
-   (s/optional-key :key) s/Str})
+(def skeleton-user
+  {:login s/Str
+   :key   s/Str})
 
 (s/defschema User
-  canonical-user)
+  (schema/strict-schema skeleton-user))

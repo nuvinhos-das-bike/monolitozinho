@@ -1,10 +1,14 @@
 (ns service
   (:require [io.pedestal.http.route :as route]
             [com.stuartsierra.component :as component]
-            [diplomat.http-in :as d.http-in]))
+            [diplomat.http-in :as d.http-in]
+            [common-io.interceptors.errors :as errors]
+            [common-io.interceptors.logging :as logging]))
 
 (def common-interceptors
-  [])
+  [(errors/catch-externalize)
+   (errors/catch)
+   (logging/log)])
 
 (def routes
   (route/expand-routes

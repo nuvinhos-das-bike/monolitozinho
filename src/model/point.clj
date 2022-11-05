@@ -1,14 +1,15 @@
 (ns model.point
   (:require [schema.core :as s]
-            [model.address :as m.address]))
+            [model.address :as m.address]
+            [common-core.schema :as schema]))
 
-(def canonical-point
+(def skeleton-point
   {:name     s/Str
    :capacity s/Num
    :address  m.address/Address})
 
 (s/defschema Point
-   canonical-point)
+  (schema/strict-schema skeleton-point))
 
 (s/defschema Points
-  {s/Keyword Point})
+  (schema/strict-schema {s/Keyword Point}))

@@ -1,12 +1,13 @@
 (ns model.bike
-  (:require [schema.core :as s]))
+  (:require [schema.core :as s]
+            [common-core.schema :as schema]))
 
-(def canonical-bike
-  {(s/optional-key :point) s/Keyword
-   (s/optional-key :user)  s/Keyword})
+(def skeleton-bike
+  {:point {:schema s/Keyword :require false}
+   :user  {:schema s/Keyword :require false}})
 
 (s/defschema Bike
-  canonical-bike)
+  (schema/strict-schema skeleton-bike))
 
 (s/defschema Bikes
-  {s/Keyword Bike})
+  (schema/strict-schema {s/Keyword Bike}))
