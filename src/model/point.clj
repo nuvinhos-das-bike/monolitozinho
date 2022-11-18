@@ -1,7 +1,8 @@
 (ns model.point
   (:require [schema.core :as s]
             [model.address :as m.address]
-            [common-core.schema :as schema]))
+            [common-core.schema :as schema]
+            [model.bike]))
 
 (def skeleton-point
   {:name     s/Str
@@ -17,3 +18,7 @@
 (s/defschema PointWithBikes
   (schema/strict-schema (assoc skeleton-point
                           :bikes [{s/Keyword model.bike/Bike}])))
+
+(s/defschema PointsWithBikes
+  (schema/strict-schema [(assoc skeleton-point
+                           :bikes [{s/Keyword model.bike/Bike}])]))

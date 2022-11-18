@@ -22,3 +22,5 @@
                          (assoc point :bikes
                                       (filterv (fn [{point-id :point}]
                                                  (= point-id id)) bikes)))))))
+
+(defn datomic->points [points bikes])

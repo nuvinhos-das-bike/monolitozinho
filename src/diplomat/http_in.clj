@@ -3,9 +3,9 @@
             [controller.bike :as controller.bike]))
 
 (defn get-all-points
-  [{db :db}]
+  [{db-conn :db-conn}]
   {:status 200
-   :body   {:data (controller.point/get-all-points db)}})
+   :body   {:data (controller.point/get-all-points db-conn)}})
 
 (defn get-point
   [{db             :db

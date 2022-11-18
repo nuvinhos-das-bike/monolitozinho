@@ -1,9 +1,11 @@
 (ns db.bike
   (:require [model.bike :as m.bike]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [datomic.client.api :as d]))
 
-(s/defn get-all-bikes [db] :- m.bike/Bikes
-  (get @db :bikes))
+(s/defn get-all-bikes [conn] :- m.bike/Bikes
+  (d/q '[:find (pull ?e [*])
+         :where [?e :bike/id]] (d/db conn)))
 
 (s/defn get-bike [id-bike db]
   (get-in @db [:bikes id-bike]))

@@ -1,2 +1,4 @@
 {:port 9876
- :db-file "resources/db.edn"}
+ :server-type :dev-local
+ :system "dev"
+ :db-name "nuvinho-das-bikes"}

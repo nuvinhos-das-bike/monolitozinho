@@ -25,7 +25,7 @@
   (start [this]
     (println "Start servidor")
     (let [assoc-store (fn [context]
-                        (assoc-in context [:request :db] (:db database)))
+                        (assoc-in context [:request :db-conn] (:conn database)))
           db-interceptor {:name  :db-interceptor
                           :enter assoc-store}
           error-interceptor {:error

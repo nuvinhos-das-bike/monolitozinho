@@ -5,10 +5,8 @@
             [schema.core :as s]))
 
 (defn get-all-points
-  [db]
-  (let [points (d.point/get-all-points db)
-        bikes (d.bike/get-all-bikes db)]
-     (a.point/all-points->wire points bikes)))
+  [db-conn]
+  (d.point/get-all-points db-conn))
 
 (s/defn get-point
   [point-id :- s/Keyword
