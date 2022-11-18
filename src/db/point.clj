@@ -1,10 +1,11 @@
 (ns db.point
-  (:require [model.database :as m.database]
-            [model.point :as m.point]
+  (:require [model.point :as model.point]
             [schema.core :as s]))
 
-(s/defn ^:always-validate get-all-points [db :- m.database/Database] :- m.point/Points
-  (get db :points)
-  (throw (ex-info "Customer already exists"
-                  {:type    :conflict
-                   :details {:customer-id :1}})))
+(s/defn get-all-points [db] :- model.point/Points
+  (get @db :points))
+
+(s/defn get-point :- model.point/Point
+  [id :- s/Keyword
+   db]
+  (get-in @db [:points id]))

@@ -3,8 +3,11 @@
             [config :as config]
             [service :as routes]
             [db.db :as db]
-            [server :as web-server])
+            [server :as web-server]
+            [schema.core :as s])
   (:gen-class))
+
+(s/set-fn-validation! true)
 
 (def new-sys
   (component/system-map

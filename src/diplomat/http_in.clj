@@ -1,7 +1,33 @@
 (ns diplomat.http-in
-  (:require [controller.point :as c.point]))
+  (:require [controller.point :as controller.point]
+            [controller.bike :as controller.bike]))
 
 (defn get-all-points
   [{db :db}]
   {:status 200
-   :body   {:data (c.point/get-all-points @db)}})
+   :body   {:data (controller.point/get-all-points db)}})
+
+(defn get-point
+  [{db             :db
+    {point-id :id} :path-params}]
+  (let [point (controller.point/get-point (keyword point-id) db)]
+    (if (not (nil? point))
+      {:status 200
+       :body   point}
+      {:status 404})))
+
+(defn request-bike
+  [{id-bike :id-bike
+    id-user :id-user
+    db      :db}]
+  (controller.bike/request-bike id-bike id-user db)
+  {:status 200
+   :body   "Bike Requested"})
+
+(defn return-bike
+  [{id-bike  :id-bike
+    id-point :id-point
+    db       :db}]
+  (controller.bike/return-bike id-bike id-point db)
+  {:status 200
+   :body "Bike returned"})

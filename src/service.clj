@@ -2,18 +2,38 @@
   (:require [io.pedestal.http.route :as route]
             [com.stuartsierra.component :as component]
             [diplomat.http-in :as d.http-in]
-            [common-io.interceptors.errors :as errors]
-            [common-io.interceptors.logging :as logging]))
+            [interceptors :as i]))
 
 (def common-interceptors
-  [(errors/catch-externalize)
-   (errors/catch)
-   (logging/log)])
+  [])
 
 (def routes
   (route/expand-routes
-    #{["/points" :get (conj common-interceptors
-                            d.http-in/get-all-points) :route-name :all-points]}))
+    #{["/points"
+       :get (conj common-interceptors
+                  d.http-in/get-all-points)
+       :route-name :all-points]
+
+      ["/points/:id"
+       :get (conj common-interceptors
+                  d.http-in/get-point)
+       :route-name :get-point]
+
+      ["/bikes/request/:id-bike"
+       :patch (conj common-interceptors
+                    i/authorize-user
+                    i/validate-bike
+                    d.http-in/request-bike)
+       :route-name :bike-request]
+
+      ["/bikes/return/:id-bike/points/:id-point"
+       :patch (conj common-interceptors
+                    i/authorize-user
+                    i/validate-bike
+                    i/validate-user-has-bike
+                    i/validate-point
+                    d.http-in/return-bike)
+       :route-name :handle-bike-devolution]}))
 
 (defrecord Routes []
   component/Lifecycle

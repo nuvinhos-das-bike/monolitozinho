@@ -13,3 +13,7 @@
 
 (s/defschema Points
   (schema/strict-schema {s/Keyword Point}))
+
+(s/defschema PointWithBikes
+  (schema/strict-schema (assoc skeleton-point
+                          :bikes [{s/Keyword model.bike/Bike}])))

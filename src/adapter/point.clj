@@ -5,12 +5,12 @@
             [schema.core :as s]
             [model.bike :as m.bike]))
 
-(s/defn ^:always-validate all-bikes->bikes-with-id :- w.o.bike/Bikes
+(s/defn all-bikes->bikes-with-id :- w.o.bike/Bikes
   [bikes :- m.bike/Bikes]
   (mapv (fn [[id data]]
           (merge {:id id} data)) bikes))
 
-(s/defn ^:always-validate all-points->wire :- w.o.point/Points
+(s/defn all-points->wire :- w.o.point/Points
   [points :- m.point/Points
    bikes :- m.bike/Bikes]
   (let [bikes (all-bikes->bikes-with-id bikes)]

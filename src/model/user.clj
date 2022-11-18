@@ -4,7 +4,8 @@
 
 (def skeleton-user
   {:login s/Str
-   :key   s/Str})
+   :key   s/Str
+   :subscriber s/Bool})
 
 (s/defschema User
   (schema/strict-schema skeleton-user))
