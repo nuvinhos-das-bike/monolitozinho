@@ -2,7 +2,8 @@
   (:require [schema.core :as s]))
 
 (def skeleton-address
-  {:street       s/Str
+  {:id           s/Uuid
+   :street       s/Str
    :number       s/Str
    :zip-code     s/Str
    :address-line s/Str})

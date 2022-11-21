@@ -4,16 +4,12 @@
             [model.bike]))
 
 (def skeleton-point
-  {:name     s/Str
+  {:id       s/Uuid
+   :name     s/Str
    :capacity s/Num
-   :address  m.address/Address})
+   :address  m.address/Address
+   :bikes    [model.bike/Bike]})
 
 (s/defschema Point skeleton-point)
 
-(s/defschema Points {s/Keyword Point})
-
-(s/defschema PointWithBikes (assoc skeleton-point
-                                      :bikes [{s/Keyword model.bike/Bike}]))
-
-(s/defschema PointsWithBikes [(assoc skeleton-point
-                                       :bikes [{s/Keyword model.bike/Bike}])])
+(s/defschema Points [Point])

@@ -3,5 +3,5 @@
 
 (s/defn point-available? :- s/Bool
   [{capacity           :capacity
-    all-bikes-in-point :bikes} :- model.point/PointWithBikes]
+    all-bikes-in-point :bikes} :- model.point/Point]
   (< (count all-bikes-in-point) capacity))

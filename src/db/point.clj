@@ -3,7 +3,8 @@
             [schema.core :as s]
             [datomic.client.api :as d]))
 
-(s/defn get-all-points [conn] :- model.point/PointsWithBikes
+(s/defn get-all-points :- model.point/Points
+  [conn]
   (->> (mapv first (d/q '[:find (pull ?e [[:point/id :as :id]
                                           [:point/name :as :name]
                                           [:point/capacity :as :capacity]
