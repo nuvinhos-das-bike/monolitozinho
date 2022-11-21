@@ -1,6 +1,5 @@
 (ns wire.out.address
-  (:require [schema.core :as s]
-    [common-core.schema :as schema]))
+  (:require [schema.core :as s]))
 
 (def canonical-address
   {:street       s/Str
@@ -8,5 +7,4 @@
    :zip-code     s/Str
    :address-line s/Str})
 
-(s/defschema Address
-  (schema/strict-schema canonical-address))
+(s/defschema Address canonical-address)

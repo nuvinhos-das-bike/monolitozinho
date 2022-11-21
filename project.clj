@@ -11,12 +11,6 @@
                  [clj-http "3.12.3"]
                  [com.stuartsierra/component "1.1.0"]
                  [walmartlabs/system-viz "0.4.0"]
-                 [common-core        "16.14.1"]
-                 [hiccup "1.0.5"]
                  [com.datomic/dev-local "1.0.243"]
-                 [common-io          "52.11.0"]]
-  :repl-options {:init-ns core}
-
-  :repositories [["cognitect-dev-tools" {:url      "https://dev-tools.cognitect.com/maven/releases/"
-                                         :username "$DATOMIC_USERNAME"
-                                         :password "$DATOMIC_PASSWORD"}]])
+                 [prismatic/schema "1.4.1"]]
+  :repl-options {:init-ns core})

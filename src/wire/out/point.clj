@@ -1,6 +1,5 @@
 (ns wire.out.point
   (:require [schema.core :as s]
-            [common-core.schema :as schema]
             [wire.out.address :as w.o.address]
             [wire.out.bike :as w.o.bike]))
 
@@ -11,9 +10,6 @@
    :address  w.o.address/Address
    :bikes    w.o.bike/Bikes})
 
-(s/defschema Point
-  (schema/strict-schema canonical-point))
+(s/defschema Point canonical-point)
 
-(s/defschema Points
-  (schema/strict-schema
-    [Point]))
+(s/defschema Points [Point])
