@@ -8,9 +8,9 @@
    :body   {:data (controller.point/get-all-points db-conn)}})
 
 (defn get-point
-  [{db             :db
+  [{db-conn             :db-conn
     {point-id :id} :path-params}]
-  (let [point (controller.point/get-point (keyword point-id) db)]
+  (let [point (controller.point/get-point #uuid point-id db-conn)]
     (if (not (nil? point))
       {:status 200
        :body   point}

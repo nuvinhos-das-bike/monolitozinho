@@ -10,5 +10,5 @@
 
 (s/defn get-point
   [point-id :- s/Keyword
-   db]
-  (d.point/get-point point-id db))
+   db-conn]
+  (d.point/get-point point-id db-conn))
