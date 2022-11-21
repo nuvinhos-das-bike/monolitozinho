@@ -1,6 +1,7 @@
 (ns diplomat.http-in
   (:require [controller.point :as controller.point]
-            [controller.bike :as controller.bike]))
+            [controller.bike :as controller.bike])
+  (:import (java.util UUID)))
 
 (defn get-all-points
   [{db-conn :db-conn}]
@@ -10,7 +11,7 @@
 (defn get-point
   [{db-conn             :db-conn
     {point-id :id} :path-params}]
-  (let [point (controller.point/get-point (java.util.UUID/fromString point-id) db-conn)]
+  (let [point (controller.point/get-point (UUID/fromString point-id) db-conn)]
     (if (not (nil? point))
       {:status 200
        :body   point}
