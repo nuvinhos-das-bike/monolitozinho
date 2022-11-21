@@ -10,7 +10,7 @@
 (defn get-point
   [{db-conn             :db-conn
     {point-id :id} :path-params}]
-  (let [point (controller.point/get-point #uuid point-id db-conn)]
+  (let [point (controller.point/get-point (java.util.UUID/fromString point-id) db-conn)]
     (if (not (nil? point))
       {:status 200
        :body   point}

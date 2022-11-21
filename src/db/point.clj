@@ -20,6 +20,6 @@
 (s/defn get-point :- model.point/Point
   [id :- s/Uuid
    conn]
-  (d/q '[:find (pull ?e [*])
-         :in $ ?id
-         :where [?e :point/id ?id]] (d/db conn) id))
+  (ffirst (d/q '[:find (pull ?e [*])
+          :in $ ?id
+          :where [?e :point/id ?id]] (d/db conn) id)))

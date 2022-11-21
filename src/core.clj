@@ -7,7 +7,7 @@
             [schema.core :as s])
   (:gen-class))
 
-(s/set-fn-validation! true)
+(s/set-fn-validation! false)
 
 (def new-sys
   (component/system-map
