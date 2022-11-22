@@ -1,9 +1,7 @@
-(ns db.user)
+(ns db.user
+     (:require [datomic.client.api :as d]))
 
-(defn get-user-by-key [api-key db]
-  (->> @db
-       :users
-       (filter #(= (:key (val %)) api-key))
-       (take 1)
-       (map #(assoc (val %) :id (key %)))
-       first))
+(defn get-user-by-key [api-key conn]
+  (ffirst (d/q '[:find ?user
+                 :in $ ?api-key
+                 :where [?user :user/key ?api-key]] (d/db conn) api-key)))

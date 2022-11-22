@@ -7,9 +7,9 @@
   (i/interceptor {:name  :authorize-user
                   :enter (fn [context]
                            (if-let [api-key (get (-> context :request :headers) "api-key")]
-                             (let [user (->> context :request :db (db.user/get-user-by-key api-key))]
+                             (let [user (->> context :request :db-conn (db.user/get-user-by-key api-key))]
                                (if user
-                                 (assoc-in context [:request :id-user] (:id user))
+                                 (assoc-in context [:request :user] user)
                                  (throw (ex-info "User forbidden" {:cause "not-allowed" :status 403}))))
                              (throw (ex-info "Need a api-key" {:cause "need-api-key" :status 401}))))}))
 
