@@ -7,8 +7,10 @@
   (d/q '[:find (pull ?e [*])
          :where [?e :bike/id]] (d/db conn)))
 
-(s/defn get-bike [id-bike db]
-  (get-in @db [:bikes id-bike]))
+(s/defn get-bike [id-bike conn]
+  (d/q '[:find ?bike
+         :in $ ?id-bike
+         :where [?bike :bike/id ?id-bike]] (d/db conn) id-bike))
 
 (s/defn request-bike [id-bike id-user db]
   (swap! db (fn [db] (update-in db [:bikes id-bike] #(-> %

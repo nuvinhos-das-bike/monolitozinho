@@ -16,9 +16,9 @@
 (def validate-bike
   (i/interceptor {:name  :validate-bike
                   :enter (fn [{{{id-bike :id-bike} :path-params
-                                db                 :db} :request :as context}]
-                           (if (db.bike/get-bike (keyword id-bike) db)
-                             (assoc-in context [:request :id-bike] (keyword id-bike))
+                                conn                 :db-conn} :request :as context}]
+                           (if (db.bike/get-bike id-bike conn)
+                             (assoc-in context [:request :bike] id-bike)
                              (throw (ex-info "Bike not exists" {:cause "bike-not-exists"}))))}))
 
 (def validate-user-has-bike
