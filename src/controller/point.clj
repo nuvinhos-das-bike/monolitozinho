@@ -1,7 +1,5 @@
 (ns controller.point
   (:require [db.point :as d.point]
-            [db.bike :as d.bike]
-            [adapter.point :as a.point]
             [schema.core :as s]))
 
 (defn get-all-points

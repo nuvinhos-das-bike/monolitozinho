@@ -1,6 +1,7 @@
 (ns diplomat.http-in
   (:require [controller.point :as controller.point]
-            [controller.bike :as controller.bike])
+            [controller.bike :as controller.bike]
+            [controller.user])
   (:import (java.util UUID)))
 
 (defn get-all-points
@@ -20,8 +21,8 @@
 (defn request-bike
   [{id-bike :id-bike
     id-user :id-user
-    db      :db}]
-  (controller.bike/request-bike id-bike id-user db)
+    db-conn      :db-conn}]
+  (controller.bike/request-bike id-bike id-user db-conn)
   {:status 200
    :body   "Bike Requested"})
 
@@ -32,3 +33,18 @@
   (controller.bike/return-bike id-bike id-point db)
   {:status 200
    :body "Bike returned"})
+
+(defn get-user
+  [{db-conn             :db-conn
+    {user-id :id} :path-params}]
+  (let [point (controller.user/get-user (UUID/fromString user-id) db-conn)]
+    (if (not (nil? point))
+      {:status 200
+       :body   point}
+      {:status 404})))
+
+(defn get-users
+  [{db-conn             :db-conn}]
+  (let [point (controller.user/get-users db-conn)]
+    {:status 200
+     :body   point}))

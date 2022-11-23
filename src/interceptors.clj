@@ -1,13 +1,14 @@
 (ns interceptors
   (:require [io.pedestal.interceptor :as i]
             [db.user :as db.user]
-            [db.bike :as db.bike]))
+            [db.bike :as db.bike])
+  (:import (java.util UUID)))
 
 (def authorize-user
   (i/interceptor {:name  :authorize-user
                   :enter (fn [context]
                            (if-let [api-key (get (-> context :request :headers) "api-key")]
-                             (let [user (->> context :request :db (db.user/get-user-by-key api-key))]
+                             (let [user (->> context :request :db-conn (db.user/get-user-by-key api-key))]
                                (if user
                                  (assoc-in context [:request :id-user] (:id user))
                                  (throw (ex-info "User forbidden" {:cause "not-allowed" :status 403}))))
@@ -16,9 +17,9 @@
 (def validate-bike
   (i/interceptor {:name  :validate-bike
                   :enter (fn [{{{id-bike :id-bike} :path-params
-                                db                 :db} :request :as context}]
-                           (if (db.bike/get-bike (keyword id-bike) db)
-                             (assoc-in context [:request :id-bike] (keyword id-bike))
+                                db-conn            :db-conn} :request :as context}]
+                           (if-let [bike (db.bike/get-bike (UUID/fromString id-bike) db-conn)]
+                             (assoc-in context [:request :id-bike] (:id bike))
                              (throw (ex-info "Bike not exists" {:cause "bike-not-exists"}))))}))
 
 (def validate-user-has-bike

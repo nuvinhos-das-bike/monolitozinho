@@ -23,4 +23,6 @@
                                       (filterv (fn [{point-id :point}]
                                                  (= point-id id)) bikes)))))))
 
-(defn datomic->points [points bikes])
+(defn datomic->points [points])
+
+(defn datomic->points [point])

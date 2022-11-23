@@ -33,7 +33,17 @@
                     i/validate-user-has-bike
                     i/validate-point
                     d.http-in/return-bike)
-       :route-name :handle-bike-devolution]}))
+       :route-name :handle-bike-devolution]
+
+      ["/users"
+       :get (conj common-interceptors
+                  d.http-in/get-users)
+       :route-name :get-users]
+
+      ["/users/:id"
+       :get (conj common-interceptors
+                  d.http-in/get-user)
+       :route-name :get-user]}))
 
 (defrecord Routes []
   component/Lifecycle

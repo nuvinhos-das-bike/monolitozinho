@@ -60,7 +60,8 @@
          :where [?e :address/id]] (d/db conn))
 
   (d/q '[:find (pull ?e [*])
-         :where [?e :point/id]] (d/db conn))
+         :where [?e :bike/id]] (d/db conn))
 
-  (d/q '[:find (pull ?e [*])
-         :where [?e :bike/id]] (d/db conn)))
+  (ffirst (d/q '[:find ?e
+                 :in $ ?bike
+                 :where [?e :point/bikes ?bikes]] (d/db conn) (java.util.UUID/fromString "34f85161-9c1e-4150-8833-71f895ea6507"))))

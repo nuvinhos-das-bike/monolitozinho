@@ -3,8 +3,8 @@
             [logic.point :as logic.point]))
 
 (defn request-bike
-  [id-bike id-user db]
-  (d.bike/request-bike id-bike id-user db))
+  [id-bike id-user db-conn]
+  (d.bike/request-bike id-bike id-user db-conn))
 
 (defn return-bike
   [id-bike id-point db]
