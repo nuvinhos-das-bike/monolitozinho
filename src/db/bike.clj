@@ -19,7 +19,6 @@
   (swap! db (fn [db] (update-in db [:bikes id-bike] #(-> %
                                                          (assoc :user id-user)
                                                          (dissoc :point))))))
-(defn return-bike [id-bike id-ponto db]
-  (swap! db (fn [db] (update-in db [:bikes id-bike] #(-> %
-                                                         (assoc :point id-ponto)
-                                                         (dissoc :user))))))
+(defn return-bike! [id-bike id-ponto conn]
+  (d/transact conn {:tx-data [{:point/id    id-ponto
+                               :point/bikes [{:bike/id id-bike}]}]}))

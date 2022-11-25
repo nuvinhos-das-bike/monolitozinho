@@ -23,19 +23,18 @@
 
 (def validate-user-has-bike
   (i/interceptor {:name  :validate-user-has-bike
-                  :enter (fn [{{authorized-user :id-user
-                                id-bike         :id-bike
-                                db              :db} :request :as context}]
-                           (let [bike-user (-> (db.bike/get-bike (keyword id-bike) db)
-                                               :user)]
-                             (if (= authorized-user bike-user)
+                  :enter (fn [{{authorized-user :user
+                                id-bike         :bike
+                                conn            :db-conn} :request :as context}]
+                           (let [bike-user (db.bike/get-from-user authorized-user conn)]
+                             (if (= (parse-uuid id-bike) (:bike/id bike-user))
                                context
                                (throw (ex-info "User can't iterate with this bike" {:cause "user-not-has-bike"})))))}))
 
 (def validate-point
   (i/interceptor {:name  :validate-bike
                   :enter (fn [{{{id-point :id-point} :path-params
-                                db                   :db} :request :as context}]
-                           (if (-> db.point/get-point (keyword id-point) db)
-                             (assoc-in context [:request :id-point] (keyword id-point))
+                                db                   :db-conn} :request :as context}]
+                           (if (-> id-point parse-uuid (db.point/get-point db))
+                             (assoc-in context [:request :point] id-point)
                              (throw (ex-info "Point not exists" {:cause "point-not-exists"}))))}))

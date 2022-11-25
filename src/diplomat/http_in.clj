@@ -26,9 +26,9 @@
    :body   "Bike Requested"})
 
 (defn return-bike
-  [{id-bike  :id-bike
-    id-point :id-point
-    db       :db}]
-  (controller.bike/return-bike id-bike id-point db)
+  [{id-bike  :bike
+    id-point :point
+    conn     :db-conn}]
+  (controller.bike/return-bike (parse-uuid id-bike) (parse-uuid id-point) conn)
   {:status 200
    :body "Bike returned"})
