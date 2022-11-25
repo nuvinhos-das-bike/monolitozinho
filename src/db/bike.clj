@@ -7,6 +7,9 @@
   (d/q '[:find (pull ?e [*])
          :where [?e :bike/id]] (d/db conn)))
 
+(defn get-from-user [user conn]
+  (-> (d/pull (d/db conn) '[{:user/bike [*]}] user) :user/bike))
+
 (s/defn get-bike [id-bike conn]
   (d/q '[:find ?bike
          :in $ ?id-bike
