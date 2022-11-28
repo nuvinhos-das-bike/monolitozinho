@@ -26,6 +26,7 @@
                                     db.seed/user-user
                                     db.seed/user-anon]})))
 
+(def local-conn (atom {}))
 
 (defrecord Database [config]
   component/Lifecycle
@@ -35,6 +36,7 @@
           client (d/client (select-keys config [:system :server-type]))
           _ (d/create-database client (select-keys config [:db-name]))
           conn (d/connect client (select-keys config [:db-name]))]
+      (reset! local-conn conn)
       (assoc this :conn conn)))
 
   (stop [this]

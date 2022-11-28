@@ -1,13 +1,12 @@
 (ns db.bike
-  (:require [model.bike :as m.bike]
+  (:require [model.bike :as m]
             [schema.core :as s]
             [datomic.client.api :as d]))
 
-(s/defn get-all-bikes [conn] :- m.bike/Bikes
-  (d/q '[:find (pull ?e [*])
-         :where [?e :bike/id]] (d/db conn)))
+(defn get-from-user [user conn]
+  (-> (d/pull (d/db conn) '[{:user/bike [*]}] user) :user/bike))
 
-(s/defn get-bike :- model.bike/Bike
+(s/defn get-bike :- m/Bike
   [id-bike :- s/Uuid
    conn]
   (-> (d/q '[:find (pull ?e [[:bike/id :as :id]])
@@ -27,7 +26,6 @@
     (d/transact conn {:tx-data [[:db/retract point-id :point/bikes [:bike/id id-bike]]
                                 [:db/add [:user/id id-user] :user/bike [:bike/id id-bike]]]})))
 
-(defn return-bike [id-bike id-ponto db]
-  (swap! db (fn [db] (update-in db [:bikes id-bike] #(-> %
-                                                         (assoc :point id-ponto)
-                                                         (dissoc :user))))))
+(defn return-bike! [id-bike id-ponto conn]
+  (d/transact conn {:tx-data [{:point/id    id-ponto
+                               :point/bikes [{:bike/id id-bike}]}]}))
