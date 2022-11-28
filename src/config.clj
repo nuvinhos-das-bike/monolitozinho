@@ -1,4 +1,4 @@
-(ns modulo-3.config
+(ns config
   (:require [com.stuartsierra.component :as component]))
 
 (defrecord Config []

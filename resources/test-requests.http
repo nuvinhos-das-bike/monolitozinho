@@ -1,0 +1,19 @@
+### Consulta todos os pontos
+http://localhost:9876/points
+
+### Consulta ponto por id
+http://localhost:9876/points/b2ae4f6c-37ae-4c0d-97c9-9e2e2d79d45f
+
+### Retirar bike de um ponto
+PATCH http://localhost:9876/bikes/request/e03e4055-9aba-4b5f-a17d-56d678ec3ea2
+api-key: {{Uo~yG#E&#c6GOaS-!84b.Gi8OM"H
+
+### Consulta todos os usuarios
+http://localhost:9876/users
+
+### Consulta de usuario
+http://localhost:9876/users/5c9cd019-ff17-4ed0-ac23-97002b9a7795
+
+### Devolucao da bike
+PATCH http://localhost:9876/bikes/return/e03e4055-9aba-4b5f-a17d-56d678ec3ea2/points/99509f87-b4a9-4c80-862c-35e43f52386f
+api-key: in%^Ha[5mkNuJoARAjqN!'?RFlG[80

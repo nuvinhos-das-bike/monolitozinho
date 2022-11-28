@@ -11,6 +11,6 @@
                  [clj-http "3.12.3"]
                  [com.stuartsierra/component "1.1.0"]
                  [walmartlabs/system-viz "0.4.0"]
-                 [prismatic/schema "1.4.1"]
-                 [hiccup "1.0.5"]]
-  :repl-options {:init-ns modulo-3.core})
+                 [com.datomic/dev-local "1.0.243"]
+                 [prismatic/schema "1.4.1"]]
+  :repl-options {:init-ns core})
