@@ -7,7 +7,7 @@
   (d.bike/request-bike id-bike id-user db-conn))
 
 (defn return-bike
-  [id-bike id-point db]
+  [id-bike id-point id-user db]
   (if (logic.point/point-available? (db.point/get-point id-point db))
-    (d.bike/return-bike! id-bike id-point db)
+    (d.bike/return-bike! id-bike id-point id-user db)
     (throw (ex-info "Point already reached capacity" {:cause "point-full"}))))

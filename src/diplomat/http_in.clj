@@ -7,7 +7,7 @@
 (defn get-all-points
   [{db-conn :db-conn}]
   {:status 200
-   :body   {:data (controller.point/get-all-points db-conn)}})
+   :body   (controller.point/get-all-points db-conn)})
 
 (defn get-point
   [{db-conn             :db-conn
@@ -20,17 +20,18 @@
 
 (defn request-bike
   [{id-bike :id-bike
-    id-user :id-user
+    user :user
     db-conn      :db-conn}]
-  (controller.bike/request-bike id-bike id-user db-conn)
+  (controller.bike/request-bike id-bike (:id user) db-conn)
   {:status 200
    :body   "Bike Requested"})
 
 (defn return-bike
-  [{id-bike  :bike
+  [{id-bike  :id-bike
     id-point :point
+    user     :user
     conn     :db-conn}]
-  (controller.bike/return-bike (parse-uuid id-bike) (parse-uuid id-point) conn)
+  (controller.bike/return-bike id-bike (parse-uuid id-point) (:id user) conn)
   {:status 200
    :body "Bike returned"})
 

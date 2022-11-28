@@ -13,6 +13,13 @@
                                  (throw (ex-info "User forbidden" {:cause "not-allowed" :status 403}))))
                              (throw (ex-info "Need a api-key" {:cause "need-api-key" :status 401}))))}))
 
+(def can-request
+  (i/interceptor {:name  :can-request
+                  :enter (fn [context]
+                           (if (-> context :request :user :bike not)
+                             context
+                             (throw (ex-info "User cant request another bike" {:cause "user-already-have-a-bike"}))))}))
+
 (def validate-bike
   (i/interceptor {:name  :validate-bike
                   :enter (fn [{{{id-bike :id-bike} :path-params
@@ -24,10 +31,10 @@
 (def validate-user-has-bike
   (i/interceptor {:name  :validate-user-has-bike
                   :enter (fn [{{authorized-user :user
-                                id-bike         :bike
+                                id-bike         :id-bike
                                 conn            :db-conn} :request :as context}]
-                           (let [bike-user (db.bike/get-from-user authorized-user conn)]
-                             (if (= (parse-uuid id-bike) (:bike/id bike-user))
+                           (let [bike-user (-> authorized-user :bike :id)]
+                             (if (= id-bike bike-user)
                                context
                                (throw (ex-info "User can't iterate with this bike" {:cause "user-not-has-bike"})))))}))
 

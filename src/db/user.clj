@@ -11,7 +11,7 @@
                                 :user/key
                                 :user/login
                                 :user/subscriber
-                                :user/bike])
+                                {:user/bike [[:bike/id :as :id]]}])
                 :in $ ?key
                 :where [?e :user/key ?key]] (d/db conn) api-key)
          ffirst

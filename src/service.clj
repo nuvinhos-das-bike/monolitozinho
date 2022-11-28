@@ -23,6 +23,7 @@
        :patch (conj common-interceptors
                     i/authorize-user
                     i/validate-bike
+                    i/can-request
                     d.http-in/request-bike)
        :route-name :bike-request]
 
